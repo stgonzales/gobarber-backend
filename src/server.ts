@@ -2,6 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 
+import './database';
+
 import routes from './routes';
 
 require('dotenv').config();
