@@ -5,25 +5,27 @@ import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 interface Request {
-    provider: string;
+    provider_id: string;
     date: Date;
 }
 
 
 class CreateAppointmentService {
-    public async execute({ date, provider }: Request): Promise<Appointment> {
+    public async execute({ date, provider_id }: Request): Promise<Appointment> {
         const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
         const appointmentDate = startOfHour(date)
 
-        const findAppointmentSameDate = await appointmentsRepository.findByDate(appointmentDate)
+        const findAppointmentSameDate = await appointmentsRepository.find({
+            where: { date: appointmentDate, provider_id }
+        })
 
-        if (findAppointmentSameDate) {
+        if (findAppointmentSameDate.length > 0) {
             throw Error('This appoiment date and time is not available');
         }
 
         const appointment = appointmentsRepository.create({
-            provider,
+            provider_id,
             date: appointmentDate
         })
 

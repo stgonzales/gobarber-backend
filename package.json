@@ -12,14 +12,17 @@
         "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
     },
     "dependencies": {
+        "@types/bcryptjs": "^2.4.2",
         "@types/cors": "^2.8.7",
         "@types/morgan": "^1.9.1",
+        "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
         "date-fns": "^2.15.0",
         "express": "^4.17.1",
         "morgan": "^1.10.0",
         "pg": "^8.3.2",
         "reflect-metadata": "^0.1.13",
+        "ts-node-dev": "^1.0.0-pre.61",
         "typeorm": "^0.2.25",
         "uuidv4": "^6.2.3"
     },
