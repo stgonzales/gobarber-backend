@@ -3,6 +3,8 @@ import { startOfHour } from 'date-fns';
 
 import Appointment from '../models/Appointment';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import AppError from '../errors/AppError'
+
 
 interface Request {
     provider_id: string;
@@ -21,7 +23,7 @@ class CreateAppointmentService {
         })
 
         if (findAppointmentSameDate.length > 0) {
-            throw Error('This appoiment date and time is not available');
+            throw new AppError('This appoiment date and time is not available');
         }
 
         const appointment = appointmentsRepository.create({
