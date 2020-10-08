@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from "jsonwebtoken";
 
-import authConfig from "../config/auth"
-import AppError from '../errors/AppError'
+import authConfig from "@config/auth"
+import AppError from '@shared/errors/AppError'
 
 
 interface TokenPayload {
@@ -18,16 +18,21 @@ export default function ensureAuthenticated(request: Request, response: Response
         throw new AppError("JWT token is missing", 401);
     }
 
-    const [, token] = authHeader.split(' ')
+    try {
+        const [, token] = authHeader.split(' ')
 
 
-    const decoded = verify(token, authConfig.jwt.secret)
+        const decoded = verify(token, authConfig.jwt.secret)
 
-    const { sub } = decoded as TokenPayload
+        const { sub } = decoded as TokenPayload
 
-    request.user = {
-        id: sub,
+        request.user = {
+            id: sub,
+        }
+
+        return next()
+    } catch (err) {
+        throw new AppError("JWT Token invalid or expired");
+
     }
-
-    return next()
 }

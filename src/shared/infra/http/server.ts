@@ -6,11 +6,11 @@ import 'express-async-errors'
 import morgan from 'morgan';
 import cors from 'cors';
 
-import './database';
+import '@shared/infra/typeorm';
 
+import uploadConfig from '@config/upload'
+import AppError from '@shared/errors/AppError'
 import routes from './routes';
-import uploadConfig from './config/upload'
-import AppError from './errors/AppError'
 
 require('dotenv').config();
 

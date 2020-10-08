@@ -3,9 +3,9 @@ import { parseISO, startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
 // import Appointment from '../models/Appointment';
-import AppointmentsRepository from '../repositories/AppointmentsRepository';
-import CreateAppointmentService from '../services/CreateAppointmentService';
-import ensureAuthenticated from "../middleware/ensureAuthenticated";
+import AppointmentsRepository from '@modules/appointments/infra/typeorm/repositories/AppointmentsRepository';
+import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
+import ensureAuthenticated from "@modules/users/infra/http/middleware/ensureAuthenticated";
 
 
 const appointmentsRouter = Router();
