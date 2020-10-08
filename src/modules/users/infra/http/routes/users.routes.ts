@@ -1,57 +1,27 @@
-import { Router, request, response } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { Router } from 'express';
+
 import multer from 'multer'
 
-import CreateUserService from "@modules/users/services/CreateUserService";
-import UpdateUserAvatarService from "@modules/users/services/UpdateUserAvatarService";
+import UsersController from "../controllers/UsersController";
+import UserAvatarController from "../controllers/UserAvatarController"
 
-
-import UserRepository from "@modules/users/repositories/UsersRepository"
 import ensureAuthenticated from "@modules/users/infra/http/middleware/ensureAuthenticated"
 
 import uploadConfig from '@config/upload'
 
 const usersRouter = Router();
+
+const usersController = new UsersController();
+const userAvatarController = new UserAvatarController();
+
 const upload = multer(uploadConfig)
 
-usersRouter.post('/', async (request, response) => {
-    const { name, email, password } = request.body;
+usersRouter.use(ensureAuthenticated);
 
-    const createUser = new CreateUserService();
+usersRouter.get('/', usersController.index)
 
-    const user = await createUser.execute({
-        name,
-        email,
-        password,
-    })
+usersRouter.post('/', usersController.create)
 
-    delete user.password
-
-    return response.json(user)
-})
-
-usersRouter.use(ensureAuthenticated)
-
-usersRouter.get('/', async (request, response) => {
-    const usersRepository = getCustomRepository(UserRepository)
-    const users = await usersRepository.find()
-
-    return response.json(users)
-})
-
-usersRouter.patch('/avatar', upload.single('avatar'), async (request, response) => {
-    const updateUserAvatar = new UpdateUserAvatarService()
-
-    const user = await updateUserAvatar.execute({
-        user_id: request.user.id,
-        avatarFilename: request.file.filename,
-    })
-
-    delete user.password
-
-    return response.json(user)
-
-
-})
+usersRouter.patch('/avatar', upload.single('avatar'), userAvatarController.update)
 
 export default usersRouter;

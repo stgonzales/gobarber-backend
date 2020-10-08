@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 
 import '@shared/infra/typeorm';
+import '@shared/container';
 
 import uploadConfig from '@config/upload'
 import AppError from '@shared/errors/AppError'
