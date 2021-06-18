@@ -22,7 +22,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-app.use('/files', express.static(uploadConfig.directory))
+app.use('/files', express.static(uploadConfig.tmpFolder))
 app.use(routes)
 
 app.get('/', (req, res) => {

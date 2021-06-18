@@ -32,6 +32,7 @@ export default function ensureAuthenticated(request: Request, response: Response
 
         return next()
     } catch (err) {
+        console.log(err);
         throw new AppError("JWT Token invalid or expired");
 
     }
